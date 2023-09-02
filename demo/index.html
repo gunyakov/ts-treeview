@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bootstrap Tree View</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="../dist/ts-treeview.css" rel="stylesheet">
+  </head>
+  <body>
+  	<div class="container">
+    	<h1>Bootstrap Tree View</h1>
+      <br>
+      <div class="row">
+        <div class="col-sm-4">
+          <h2>Default</h2>
+          <div class="treeview w-20 border my-4" id="treeview1">
+            <h6 class="pt-3 pl-3">Folders</h6>
+            <hr>
+            <ul class="mb-1 pl-3 pb-2">
+              <li>
+                <a class="closed">
+                  <i class="fas fa-angle-right rotate"></i>
+                  <span><i class="far fa-envelope-open ic-w mx-1"></i>Mail</span>
+                </a>
+                <ul class="nested">
+                  <li><i class="far fa-bell ic-w mr-1"></i>Offers</li>
+                  <li><i class="far fa-address-book ic-w mr-1"></i>Contacts</li>
+                  <li>
+                    <a class="closed">
+                      <i class="fas fa-angle-right rotate"></i>
+                      <span><i class="far fa-calendar-alt ic-w mx-1"></i>Calendar</span>
+                    </a>
+                    <ul class="nested">
+                      <li><i class="far fa-clock ic-w mr-1"></i>Deadlines</li>
+                      <li><i class="fas fa-users ic-w mr-1"></i>Meetings</li>
+                      <li><i class="fas fa-basketball-ball ic-w mr-1"></i>Workouts</li>
+                      <li><i class="fas fa-mug-hot ic-w mr-1"></i>Events</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <a class="closed">
+                  <i class="fas fa-angle-right rotate"></i>
+                  <span><i class="far fa-folder-open ic-w mx-1"></i>Inbox</span>
+                </a>
+                <ul class="nested">
+                  <li><i class="far fa-folder-open ic-w mr-1"></i>Admin</li>
+                  <li><i class="far fa-folder-open ic-w mr-1"></i>Corporate</li>
+                  <li><i class="far fa-folder-open ic-w mr-1"></i>Finance</li>
+                  <li><i class="far fa-folder-open ic-w mr-1"></i>Other</li>
+                </ul>
+              </li>
+              <li>
+                <a class="closed">
+                  <i class="fas fa-angle-right rotate"></i>
+                  <span><i class="far fa-gem ic-w mx-1"></i>Favourites</span>
+                </a>
+                <ul class="nested">
+                    <li><i class="fas fa-pepper-hot ic-w mr-1"></i>Restaurants</li>
+                    <li><i class="far fa-eye ic-w mr-1"></i>Places</li>
+                    <li><i class="fas fa-gamepad ic-w mr-1"></i>Games</li>
+                    <li><i class="fas fa-cocktail ic-w mr-1"></i>Coctails</li>
+                    <li><i class="fas fa-pizza-slice ic-w mr-1"></i>Food</li>
+                  </ul>
+              </li>
+              <li><i class="far fa-comment ic-w mr-1"></i>Notes</li>
+              <li><i class="fas fa-cogs ic-w mr-1"></i>Settings</li>
+              <li><i class="fas fa-desktop ic-w mr-1"></i>Devices</li>
+              <li><i class="fas fa-trash-alt ic-w mr-1"></i>Deleted Items</li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h2>Animated + custom theme</h2>
+          <div class="treeview-animated w-20 border my-4" id="treeview2">
+            <h6 class="pt-3 pl-3">Folders</h6>
+            <hr>
+            <ul class="treeview-animated-list mb-3">
+              <li class="treeview-animated-items">
+                <a class="closed">
+                  <i class="fas fa-angle-right"></i>
+                  <span><i class="far fa-envelope-open ic-w mx-1"></i>Mail</span>
+                </a>
+                <ul class="nested" style="display: none;">
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-bell ic-w mr-1"></i>Offers
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-address-book ic-w mr-1"></i>Contacts
+                  </div></li>
+                  <li class="treeview-animated-items">
+                    <a class="closed"><i class="fas fa-angle-right"></i>
+                      <span><i class="far fa-calendar-alt ic-w mx-1"></i>Calendar</span></a>
+                    <ul class="nested" style="display: none;">
+                      <li>
+                        <div class="treeview-animated-element"><i class="far fa-clock ic-w mr-1"></i>Deadlines
+                      </div></li>
+                      <li>
+                        <div class="treeview-animated-element"><i class="fas fa-users ic-w mr-1"></i>Meetings
+                      </div></li>
+                      <li>
+                        <div class="treeview-animated-element"><i class="fas fa-basketball-ball ic-w mr-1"></i>Workouts
+                      </div></li>
+                      <li>
+                        <div class="treeview-animated-element"><i class="fas fa-mug-hot ic-w mr-1"></i>Events
+                      </div></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="treeview-animated-items">
+                <a class="closed">
+                  <i class="fas fa-angle-right"></i>
+                  <span><i class="far fa-folder-open ic-w mx-1"></i>Inbox</span>
+                </a>
+                <ul class="nested" style="display: none;">
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-folder-open ic-w mr-1"></i>Admin
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-folder-open ic-w mr-1"></i>Corporate
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-folder-open ic-w mr-1"></i>Finance
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-folder-open ic-w mr-1"></i>Other
+                  </div></li>
+                </ul>
+              </li>
+              <li class="treeview-animated-items">
+                <a class="closed">
+                  <i class="fas fa-angle-right"></i>
+                  <span><i class="far fa-gem mx-1"></i>Favourites</span>
+                </a>
+                <ul class="nested" style="display: none;">
+                  <li>
+                    <div class="treeview-animated-element"><i class="fas fa-pepper-hot ic-w mr-1"></i>Restaurants
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="far fa-eye ic-w mr-1"></i>Places
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="fas fa-gamepad ic-w mr-1"></i>Games
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="fas fa-cocktail ic-w mr-1"></i>Coctails
+                  </div></li>
+                  <li>
+                    <div class="treeview-animated-element"><i class="fas fa-pizza-slice ic-w mr-1"></i>Food
+                  </div></li>
+                </ul>
+              </li>
+              <li>
+                <div class="treeview-animated-element"><i class="far fa-comment ic-w mr-1"></i>Notes
+              </div></li>
+              <li>
+                <div class="treeview-animated-element"><i class="fas fa-cogs ic-w mr-1"></i>Settings
+              </div></li>
+              <li>
+                <div class="treeview-animated-element"><i class="fas fa-desktop ic-w mr-1"></i>Devices
+              </div></li>
+              <li>
+                <div class="treeview-animated-element"><i class="fas fa-trash-alt ic-w mr-1"></i>Deleted Items
+              </div></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-4">
+          <h2>Colorful</h2>
+          <div class="treeview-colorful w-20 border border-secondary my-4" id="treeview3">
+            <h6 class="pt-3 pl-3">Folders</h6>
+            <hr>
+            <ul class="treeview-colorful-list mb-3">
+              <li class="treeview-colorful-items">
+                <a class="treeview-colorful-items-header">
+                  <i class="fas fa-plus-circle"></i>
+                  <span><i class="far fa-envelope-open ic-w mx-1"></i>Mail</span>
+                </a>
+                <ul class="nested" style="display: none;">
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-bell ic-w mr-1"></i>Offers
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-address-book ic-w mr-1"></i>Contacts
+                  </div></li>
+                  <li class="treeview-colorful-items">
+                    <a class="treeview-colorful-items-header">
+                      <i class="fas fa-plus-circle"></i>
+                      <span><i class="far fa-calendar-alt ic-w mx-1"></i>Calendar</span></a>
+                    <ul class="nested" style="display: none;">
+                      <li>
+                        <div class="treeview-colorful-element"><i class="far fa-clock ic-w mr-1"></i>Deadlines
+                      </div></li>
+                      <li>
+                        <div class="treeview-colorful-element"><i class="fas fa-users ic-w mr-1"></i>Meetings
+                      </div></li>
+                      <li>
+                        <div class="treeview-colorful-element"><i class="fas fa-basketball-ball ic-w mr-1"></i>Workouts
+                      </div></li>
+                      <li>
+                        <div class="treeview-colorful-element"><i class="fas fa-mug-hot ic-w mr-1"></i>Events
+                      </div></li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li class="treeview-colorful-items">
+                <a class="treeview-colorful-items-header">
+                  <i class="fas fa-plus-circle"></i>
+                  <span><i class="far fa-folder-open ic-w mx-1"></i>Inbox</span>
+                </a>
+                <ul class="nested" style="display: none;">
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-folder-open ic-w mr-1"></i>Admin
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-folder-open ic-w mr-1"></i>Corporate
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-folder-open ic-w mr-1"></i>Finance
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-folder-open ic-w mr-1"></i>Other
+                  </div></li>
+                </ul>
+              </li>
+              <li class="treeview-colorful-items">
+                <a class="treeview-colorful-items-header">
+                  <i class="fas fa-plus-circle"></i>
+                  <span><i class="far fa-gem mx-1"></i>Favourites</span>
+                </a>
+                <ul class="nested" style="display: none;">
+                  <li>
+                    <div class="treeview-colorful-element"><i class="fas fa-pepper-hot ic-w mr-1"></i>Restaurants
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="far fa-eye ic-w mr-1"></i>Places
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="fas fa-gamepad ic-w mr-1"></i>Games
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="fas fa-cocktail ic-w mr-1"></i>Coctails
+                  </div></li>
+                  <li>
+                    <div class="treeview-colorful-element"><i class="fas fa-pizza-slice ic-w mr-1"></i>Food
+                  </div></li>
+                </ul>
+              </li>
+              <li>
+                <div class="treeview-colorful-element"><i class="far fa-comment ic-w mr-1"></i>Notes
+              </div></li>
+              <li>
+                <div class="treeview-colorful-element"><i class="fas fa-cogs ic-w mr-1"></i>Settings
+              </div></li>
+              <li>
+                <div class="treeview-colorful-element"><i class="fas fa-desktop ic-w mr-1"></i>Devices
+              </div></li>
+              <li>
+                <div class="treeview-colorful-element"><i class="fas fa-trash-alt ic-w mr-1"></i>Deleted Items
+              </div></li>
+            </ul>
+          </div>
+        </div>
+        
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <h2>JSON data</h2>
+          <div id="treeview4" class=""></div>
+        </div>
+        <div class="col-sm-4">
+          <h2>Custom Icons</h2>
+          <div id="treeview5" class=""></div>
+        </div>
+        <div class="col-sm-4">
+          <h2>Tags as Badges</h2>
+          <div id="treeview6" class=""></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <h2>No Border</h2>
+          <div id="treeview7" class=""></div>
+        </div>
+        <div class="col-sm-4">
+          <h2>Colourful</h2>
+          <div id="treeview8" class=""></div>
+        </div>
+        <div class="col-sm-4">
+          <h2>Node Overrides</h2>
+          <div id="treeview9" class=""></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-4">
+          <h2>Link enabled, or</h2>
+          <div id="treeview10" class=""></div>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+      </div> 
+    </div>
+    <script>var exports = {};</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../dist/ts-treeview.js"></script>
+    <script src="init.js"></script>
+
+  </body>
+</html>

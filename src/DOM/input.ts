@@ -1,23 +1,18 @@
+import { makeEl } from "./element";
+
 export function makeInput() {
-    let el = document.createElement("span");
-    el.classList.add("input-group");
-    let input = document.createElement("input");
+    let el = makeEl("span", ["input-group"]);
+
+    let input = makeEl("input", ["form-control", "form-control-sm"]) as HTMLInputElement;
     input.type = "text";
-    input.classList.add("form-control");
-    input.classList.add("form-control-sm");
     input.setAttribute("placeholder", "Enter new name");
 
     el.append(input);
 
-    let btn = document.createElement("button");
+    let btn = makeEl("button", ["btn", "btn-outline-secondary", "form-control-sm"]) as HTMLButtonElement;
     btn.type = "button";
-    btn.classList.add("btn");
-    btn.classList.add("btn-outline-secondary");
-    btn.classList.add("form-control-sm");
 
-    let i = document.createElement("i");
-    i.classList.add("fas");
-    i.classList.add("fa-save");
+    let i = makeEl("i", ["fas", "fa-save"]);
 
     btn.append(i);
 

@@ -4,6 +4,8 @@ TreeView List written with TypeScript for easy integration into projects. Based 
 
 No dependencies, vanila JS
 
+I made this tree view becouse i cant find 'easy to use' treeview for TS and my NodeJs project [Maptorium](https://github.com/gunyakov/maptorium-server)
+
 [Demo](https://gunyakov.github.io/ts-treeview/demo/)
 
 ## Instalation

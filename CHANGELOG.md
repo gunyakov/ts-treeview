@@ -1,6 +1,14 @@
 ts-treeview Changelog
 =================
 
+## 0.1.4 (2023-09-04)
+
+### 🔧 Workflow
+* Split `click` to `item.click` and `folder.click`
+* Checkbox support. New events `folder.checkbox` and `item.checkbox`
+* `remove` method implemetation to remove items from list by ID
+* `update` method implemetation to update items in list by ID
+
 ## 0.1.3 (2023-09-03)
 
 ### 🔧 Workflow

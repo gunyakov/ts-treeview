@@ -3,6 +3,7 @@ export interface ListItem {
     text:string,
     icon: Array<string>,
     closed: boolean,
+    checkBox: boolean,
     items: Array<ListItem> | null
 }
 
@@ -17,5 +18,6 @@ export interface Options {
     subListClass: Array<string>,
     listSubClass: Array<string>,
     listSubArrowClass: Array<string>,
+    checkBoxClass: Array<string>,
     itemClass: Array<string>
 }

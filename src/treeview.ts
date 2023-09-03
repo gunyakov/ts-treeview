@@ -1,7 +1,7 @@
 import { slideDown, slideUp } from "./animate";
 import { ListItem, Options } from "./interface";
-import { EventType } from "./enum";
-import { on, fire } from "./callbacks";
+import { EventType, ItemType } from "./enum";
+import { CB } from "./callbacks";
 import { makeInput } from "./DOM/input";
 import { makeHeader } from "./DOM/header";
 import { makeEl } from "./DOM/element";
@@ -9,6 +9,8 @@ import { makeEl } from "./DOM/element";
 class TreeList {
 
     private _el:HTMLElement | null = null;
+
+    private _CB:CB;
 
     private _options:Options = {
         element: "treeview",
@@ -21,10 +23,13 @@ class TreeList {
         subListClass: ['nested'],
         listSubClass: ['closed'],
         listSubArrowClass: ["fas", "fa-angle-right", "rotate"],
+        checkBoxClass: ["mx-1", "form-check-input"],
         itemClass: []
     }
 
     constructor(options: Options) {
+
+        this._CB = new CB();
 
         this._options = {...this._options, ...options};
 
@@ -45,7 +50,7 @@ class TreeList {
     }
 
     public on(event:EventType, callback:CallableFunction) {
-        on(event, callback);
+        this._CB.on(event, callback);
     } 
 
     private _init() {
@@ -56,6 +61,8 @@ class TreeList {
     }
 
     private _events(el:HTMLElement, itemID:string = "") {
+        let CB = this._CB;
+
         if(typeof el != "undefined") {
             let listLi = el.children;
             for(let i = 0; i < listLi.length; i++) {
@@ -63,39 +70,55 @@ class TreeList {
                 let id = itemID.length == 0 ? i.toString() : itemID + ":" + i.toString()
                 if(!item.getAttribute("tl-id")) item.setAttribute("tl-id", id);
                 //Get UL from element
-                let ul = item.getElementsByTagName("ul")[0] as HTMLElement;
-                let a = item.getElementsByTagName("a")[0] as HTMLElement;
+                let ul = item.querySelector(":scope > ul") as HTMLElement;
+                let a = item.querySelector(":scope > a") as HTMLElement;
                 //If ul present
                 if(ul && a) {
                     //Make same for inner UL
                     this._events(ul, id);
                     //Bind click event
-                    a?.addEventListener("click", (e) => {
+                    a.addEventListener("click", (e) => {
                         e.stopPropagation();
-                        fire(EventType.click, item.getAttribute("tl-id"));
-                        a?.classList.toggle("open");
-                        let icon = item.getElementsByTagName("i")[0];
-                        if (icon) icon.classList.toggle("down");
-                        if(ul.classList.contains("active")) {
-                            ul.classList.remove("active");
-                            item.classList.contains("treeview-animated-items") ? slideUp(ul) : ul.style.display = "none";;
+                        if(e.detail == 1) {
+                            CB.fire(EventType.folderclick, item.getAttribute("tl-id"));
+                            a?.classList.toggle("open");
+                            let icon = item.getElementsByTagName("i")[0];
+                            if (icon) icon.classList.toggle("down");
+                            if(ul.classList.contains("active")) {
+                                ul.classList.remove("active");
+                                item.classList.contains("treeview-animated-items") ? slideUp(ul) : ul.style.display = "none";;
+                            }
+                            else {
+                                ul.classList.add("active");
+                                item.classList.contains("treeview-animated-items") ? slideDown(ul) : ul.style.display = "block";;
+                            }
                         }
-                        else {
-                            ul.classList.add("active");
-                            item.classList.contains("treeview-animated-items") ? slideDown(ul) : ul.style.display = "block";;
+                        if (e.detail == 2) {
+                            CB.fire(EventType.folderdblclick, item.getAttribute("tl-id"));
                         }
+                        
+                    });
+                    let checkBox = a.querySelector(":scope > input[type='checkbox']") as HTMLInputElement;
+                    checkBox?.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        CB.fire(EventType.foldercheckbox, item.getAttribute("tl-id"), checkBox.checked);
                     });
                 }
                 else {
+                    let checkBox = item.querySelector(":scope > input[type='checkbox']") as HTMLInputElement;
+                    checkBox?.addEventListener("click", (e) => {
+                        e.stopPropagation();
+                        CB.fire(EventType.itemcheckbox, item.getAttribute("tl-id"), checkBox.checked);
+                    });
                     item.addEventListener("click", (e) => {
                         e.stopPropagation();
-                        fire(EventType.click, item.getAttribute("tl-id"));
+                        if(e.detail == 1) CB.fire(EventType.itemclick, item.getAttribute("tl-id"));
+                        else CB.fire(EventType.itemdblclick, item.getAttribute("tl-id"));
                     });
                 }
                 //Bind double click event
                 item?.addEventListener("dblclick", (e) => {
                     e.stopPropagation();
-                    fire(EventType.dblclick, item.getAttribute("tl-id"));
                     //If list must be editable
                     if(this._options.editable) {
                         let txtEl = makeInput();
@@ -111,6 +134,76 @@ class TreeList {
                 
             }
         }   
+    }
+
+    public checkbox(enable:boolean, type:ItemType = ItemType.both) {
+        this._clearCheckBox();
+        let el = this._el?.querySelector(":scope > ul") as HTMLElement;
+        if(el) this._makeCheckBox(enable, type, el);
+    }
+
+    public update(item:ListItem):boolean {
+        let el = this._el.querySelector(`[tr-id='${item.id}]`) as HTMLElement;
+        if(el) {
+            el.replaceWith(this._makeItem(item, item.id));
+            this._events(el);
+            return true;
+        }
+        return false;
+    }
+
+    public remove(elID:string):boolean {
+        let el = this._el.querySelector(`[tr-id='${elID}]`) as HTMLElement;
+        if(el) {
+            el.remove();
+            return true;
+        }
+        return false;
+    }
+
+    private _clearCheckBox() {
+        let el = this._el?.querySelector(":scope > ul");
+        el.querySelectorAll("input[type='checkbox']").forEach((inEl) => {
+            inEl.remove();
+        })
+    }
+
+    private _makeCheckBox(enable:boolean, type:ItemType, el:HTMLElement) {
+        if(enable) {
+            let CB = this._CB;
+            if(el) {
+                let listLi = el.children;
+                for(let i = 0; i < listLi.length; i++) {
+                    let item = listLi[i] as HTMLElement;
+                    let a = item.querySelector(":scope > a") as HTMLElement || null;
+                    //Get checkbox directly from item or include link
+                    let checkBox = item.querySelector(":scope > input[type='checkbox']") as HTMLInputElement || a?.querySelector(":scope > input[type='checkbox']") as HTMLInputElement;
+                    //If checkbox missing and enable for checkboxes
+                    if(!checkBox && enable) {
+                        checkBox = makeEl("input", this._options.checkBoxClass, "checkbox") as HTMLInputElement;
+                        if(a && (type == ItemType.both || type == ItemType.folder)) {
+                            let span = a.querySelector(":scope > span");
+                            if(span) {
+                                checkBox.addEventListener("click", (e) => {
+                                    e.stopPropagation();
+                                    CB.fire(EventType.foldercheckbox, item.getAttribute("tl-id"), checkBox.checked);
+                                });
+                                span.prepend(checkBox);
+                            }
+                        }
+                        if(!a && (type == ItemType.item || type == ItemType.both)) {
+                            checkBox.addEventListener("click", (e) => {
+                                e.stopPropagation();
+                                CB.fire(EventType.itemcheckbox, item.getAttribute("tl-id"), checkBox.checked);
+                            });
+                            item.prepend(checkBox);
+                        }
+                        let ul = item.querySelector(":scope > ul") as HTMLElement;
+                        if(ul) this._makeCheckBox(enable, type, ul);
+                    }
+                }
+            }
+        }
     }
 
     private _makeHeader() {
@@ -131,8 +224,13 @@ class TreeList {
             a.append(arrow);
 
             let span = makeEl("span");
-            let icon = makeEl("i", [...item.icon, "ic-w", "mx-1"]);
-            span.append(icon);
+            if(item.checkBox) {       
+                span.append(makeEl("input", this._options.checkBoxClass, "checkbox"));
+            }
+            if(item.icon) {
+                span.append(makeEl("i", [...item.icon, "ic-w", "mx-1"]));
+            }
+
             span.append(item.text);
             a.append(span);
             li.append(a);
@@ -145,8 +243,12 @@ class TreeList {
             li.append(subList);
         }
         else {
-            let i = makeEl("i", [...item.icon, "ic-w", "mx-1"]);
-            li.append(i);
+            if(item.checkBox) {
+                li.append(makeEl("input", this._options.checkBoxClass, "checkbox"));
+            }
+            if(item.icon) {
+                li.append(makeEl("i", [...item.icon, "ic-w", "mx-1"]));
+            }
             li.append(item.text);
         }
         return li;

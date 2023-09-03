@@ -74,7 +74,7 @@
     },
     {
         text: "Deleted Items",
-        icon: ["fas", "fa-trash-alt"]
+        icon: ["fas", "fa-trash-alt"],
     }
 
 ]
@@ -101,13 +101,49 @@ let treeview4 = new TreeList({
     items: listData,
 });
 
-treeview4.on("click", (elID) => {
+treeview4.on("item.click", (elID) => {
     console.log('Element click', elID);
 });
 
-treeview4.on("dblclick", (elID) => {
+treeview4.on("item.dblclick", (elID) => {
     console.log("Element dblclick", elID);
 })
+treeview4.on("folder.click", (elID) => {
+    console.log('Folder click', elID);
+});
+
+treeview4.on("folder.dblclick", (elID) => {
+    console.log("Folder dblclick", elID);
+})
+
+treeview4.on("item.checkbox", (elID, checked) => {
+    console.log('Item checkbox', elID, checked);
+});
+
+treeview4.on("folder.checkbox", (elID, checked) => {
+    console.log("Folder checkbox", elID, checked);
+})
+
+let treeview5 = new TreeList({
+    element: "treeview5",
+    items: listData,
+});
+
+document.getElementById("itemEnable").addEventListener("click", () => {
+    treeview5.checkbox(true, "item");
+});
+
+document.getElementById("folderEnable").addEventListener("click", () => {
+    treeview5.checkbox(true, "folder");
+});
+
+document.getElementById("bothEnable").addEventListener("click", () => {
+    treeview5.checkbox(true, "both");
+});
+
+document.getElementById("bothDisable").addEventListener("click", () => {
+    treeview5.checkbox(false);
+});
 
 
 })();

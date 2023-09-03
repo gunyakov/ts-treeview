@@ -5,7 +5,12 @@ export interface ListItem {
     iconOpen?: Array<string>,
     closed?: boolean,
     checkBox?: boolean,
-    items?: Array<ListItem> | null
+    items?: Array<ListItem> | null,
+    button?: {
+        add?: boolean,
+        edit?: boolean,
+        delete?: boolean
+    }
 }
 
 export interface Options {
@@ -20,5 +25,22 @@ export interface Options {
     listSubClass?: Array<string>,
     listSubArrowClass?: Array<string>,
     checkBoxClass?: Array<string>,
-    itemClass?: Array<string>
+    itemClass?: Array<string>,
+    button?: {
+        add?: boolean,
+        edit?: boolean,
+        delete?: boolean
+    },
+    buttons?: {
+        class?: Array<string>,
+        green?: Array<string>,
+        red?: Array<string>,
+        blue?: Array<string>,
+        yellow?: Array<string>,
+        addIcon?: Array<string>,
+        editIcon?: Array<string>,
+        deleteIcon?: Array<string>
+    },
+    animate?: boolean,
+    animateSpeed?: number
 }

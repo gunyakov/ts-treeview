@@ -1,12 +1,12 @@
 {
   "name": "ts-treeview",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "Bootstrap Tree View for TS compatibility.",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "npx tsc",
-    "bundle": "npx webpack --mode=development",
+    "bundle": "npx webpack --mode=production",
     "build": "npm run compile && npm run bundle",
     "brow": "browserify ./build/index.js -o ./dist/ts-treeview.js"
   },

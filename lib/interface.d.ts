@@ -6,6 +6,11 @@ export interface ListItem {
     closed?: boolean;
     checkBox?: boolean;
     items?: Array<ListItem> | null;
+    button?: {
+        add?: boolean;
+        edit?: boolean;
+        delete?: boolean;
+    };
 }
 export interface Options {
     element: string;
@@ -20,4 +25,21 @@ export interface Options {
     listSubArrowClass?: Array<string>;
     checkBoxClass?: Array<string>;
     itemClass?: Array<string>;
+    button?: {
+        add?: boolean;
+        edit?: boolean;
+        delete?: boolean;
+    };
+    buttons?: {
+        class?: Array<string>;
+        green?: Array<string>;
+        red?: Array<string>;
+        blue?: Array<string>;
+        yellow?: Array<string>;
+        addIcon?: Array<string>;
+        editIcon?: Array<string>;
+        deleteIcon?: Array<string>;
+    };
+    animate?: boolean;
+    animateSpeed?: number;
 }

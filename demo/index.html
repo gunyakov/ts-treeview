@@ -21,6 +21,7 @@
                 <a class="closed">
                   <i class="fas fa-angle-right rotate"></i>
                   <span><i class="far fa-envelope-open ic-w mx-1"></i>Mail</span>
+                  <i class="far p-1 float-end rounded-1 border me-1 border-success text-success fas fa-plus" tl-event="add"></i>
                 </a>
                 <ul class="nested">
                   <li><i class="far fa-bell ic-w mr-1"></i>Offers</li>
@@ -73,7 +74,7 @@
         </div>
         <div class="col-sm-4">
           <h2>Animated + custom theme</h2>
-          <div class="treeview-animated w-20 border my-4" id="treeview2">
+          <div class="treeview-animated w-20 border my-4" id="treeview2" tl-animate="true" tl-animatespeed="500">
             <h6 class="pt-3 pl-3">Folders</h6>
             <hr>
             <ul class="treeview-animated-list mb-3">
@@ -81,6 +82,8 @@
                 <a class="closed">
                   <i class="fas fa-angle-right"></i>
                   <span><i class="far fa-envelope-open ic-w mx-1"></i>Mail</span>
+                  <i class="far p-1 float-end rounded-1 border me-1 border-danger text-danger fas fa-trash" tl-event="delete"></i>
+                  <i class="far p-1 float-end rounded-1 border me-1 border-warning text-warning fas fa-edit" tl-event="edit"></i>
                 </a>
                 <ul class="nested" style="display: none;">
                   <li>
@@ -282,7 +285,7 @@
           </div>
         </div>
         <div class="col-sm-4">
-          <h2>JSON data + editable</h2>
+          <h2>JSON data + buttons</h2>
           <div id="treeview6" class=""></div>
         </div>
       </div>

@@ -25,7 +25,24 @@ class TreeList {
         listSubClass: ['closed'],
         listSubArrowClass: ["fas", "fa-angle-right", "rotate"],
         checkBoxClass: ["mx-1", "form-check-input"],
-        itemClass: []
+        itemClass: [],
+        button: {
+            add: false,
+            edit: false,
+            delete: false
+        },
+        buttons: {
+            class: ["float-end", "me-1", "cursor-pointer"],
+            green: ["text-success"],
+            red: ["text-danger"],
+            blue: ["text-info"],
+            yellow: ["text-warning"],
+            addIcon: ["fas", "fa-plus"],
+            editIcon: ["fas", "fa-edit"],
+            deleteIcon: ["fas", "fa-trash"]
+        },
+        animate: false,
+        animateSpeed: 500
     }
 
     constructor(options: Options) {
@@ -39,6 +56,12 @@ class TreeList {
             this._options.class.forEach(element => {
                 this._el?.classList.add(element);
             });
+
+            let animate = this._el.getAttribute("tl-animate");
+            if(animate == "true") this._options.animate = true;
+            let animateSpeed = parseInt(this._el.getAttribute("tl-animatespeed"));
+            if(animateSpeed > 0) this._options.animateSpeed = animateSpeed;
+
             if(this._options.items.length > 0) {
                 this._drawHTML();
             }
@@ -72,6 +95,7 @@ class TreeList {
                 let item = listLi[i] as HTMLElement;
                 let id = itemID.length == 0 ? i.toString() : itemID + ":" + i.toString()
                 if(!item.getAttribute("tl-id")) item.setAttribute("tl-id", id);
+
                 //Get UL from element
                 let ul = item.querySelector(":scope > ul") as HTMLElement;
                 let a = item.querySelector(":scope > a") as HTMLElement;
@@ -100,12 +124,12 @@ class TreeList {
                             }
                             if(ul.classList.contains("active")) {
                                 ul.classList.remove("active");
-                                item.classList.contains("treeview-animated-items") ? slideUp(ul) : ul.style.display = "none";
+                                thisClass._options.animate ? slideUp(ul, thisClass._options.animateSpeed) : ul.style.display = "none";
                                 if(iconClose && iconOpen) toggleClass(icon, iconOpen.split(" "), iconClose.split(" "));
                             }
                             else {
                                 ul.classList.add("active");
-                                item.classList.contains("treeview-animated-items") ? slideDown(ul) : ul.style.display = "block";
+                                thisClass._options.animate ? slideDown(ul, thisClass._options.animateSpeed) : ul.style.display = "block";
                                 if(iconClose && iconOpen) toggleClass(icon, iconClose.split(" "), iconOpen.split(" "));
                             }
                         }
@@ -119,6 +143,22 @@ class TreeList {
                         e.stopPropagation();
                         CB.fire(EventType.foldercheckbox, item.getAttribute("tl-id"), checkBox.checked);
                     });
+                    a.querySelectorAll("[tl-event]").forEach((actionBtn) => {
+                        actionBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            switch(actionBtn.getAttribute("tl-event")) {
+                                case "add":
+                                    CB.fire(EventType.folderadd, item.getAttribute("tl-id"));
+                                    break;
+                                case "edit":
+                                    CB.fire(EventType.folderedit, item.getAttribute("tl-id"));
+                                    break;
+                                case "delete":
+                                    CB.fire(EventType.folderdelete, item.getAttribute("tl-id"));
+                                    break;
+                            }
+                        });
+                    });
                 }
                 else {
                     let checkBox = item.querySelector(":scope > input[type='checkbox']") as HTMLInputElement;
@@ -131,9 +171,25 @@ class TreeList {
                         if(e.detail == 1) CB.fire(EventType.itemclick, item.getAttribute("tl-id"));
                         else CB.fire(EventType.itemdblclick, item.getAttribute("tl-id"));
                     });
+                    item.querySelectorAll("[tl-event]").forEach((actionBtn) => {
+                        actionBtn.addEventListener("click", (e) => {
+                            e.stopPropagation();
+                            switch(actionBtn.getAttribute("tl-event")) {
+                                case "add":
+                                    CB.fire(EventType.itemadd, item.getAttribute("tl-id"));
+                                    break;
+                                case "edit":
+                                    CB.fire(EventType.itemedit, item.getAttribute("tl-id"));
+                                    break;
+                                case "delete":
+                                    CB.fire(EventType.itemdelete, item.getAttribute("tl-id"));
+                                    break;
+                            }
+                        });
+                    });
                 }
                 //Bind double click event
-                item?.addEventListener("dblclick", (e) => {
+                item.addEventListener("dblclick", (e) => {
                     e.stopPropagation();
                     //If list must be editable
                     if(this._options.editable) {
@@ -147,6 +203,7 @@ class TreeList {
                     }
                     
                 });
+                
                 
             }
         }   
@@ -251,7 +308,25 @@ class TreeList {
             }
 
             span.append(item.text);
+
             a.append(span);
+            
+            if(item.button?.delete || this._options.button.delete) {
+                let btn = makeEl("i", [...this._options.buttons.class, ...this._options.buttons.red, ...this._options.buttons.deleteIcon]);
+                btn.setAttribute("tl-event", "delete");
+                a.append(btn);
+            }
+            if(item.button?.edit || this._options.button.edit) {
+                let btn = makeEl("i", [...this._options.buttons.class, ...this._options.buttons.yellow, ...this._options.buttons.editIcon]);
+                btn.setAttribute("tl-event", "edit");
+                a.append(btn);
+            }
+            if(item.button?.add || this._options.button.add) {
+                let btn = makeEl("i", [...this._options.buttons.class, ...this._options.buttons.green, ...this._options.buttons.addIcon]);
+                btn.setAttribute("tl-event", "add");
+                a.append(btn);
+            }
+
             li.append(a);
 
             let subList = makeEl("ul", this._options.subListClass);
@@ -272,6 +347,21 @@ class TreeList {
                 li.append(icon);
             }
             li.append(item.text);
+            if(item.button?.delete || this._options.button.delete) {
+                let btn = makeEl("i", [...this._options.buttons.class, ...this._options.buttons.red, ...this._options.buttons.deleteIcon]);
+                btn.setAttribute("tl-event", "delete");
+                li.append(btn);
+            }
+            if(item.button?.edit || this._options.button.edit) {
+                let btn = makeEl("i", [...this._options.buttons.class, ...this._options.buttons.yellow, ...this._options.buttons.editIcon]);
+                btn.setAttribute("tl-event", "edit");
+                li.append(btn);
+            }
+            if(item.button?.add || this._options.button.add) {
+                let btn = makeEl("i", [...this._options.buttons.class, ...this._options.buttons.green, ...this._options.buttons.addIcon]);
+                btn.setAttribute("tl-event", "add");
+                li.append(btn);
+            }
         }
         return li;
         

@@ -5,6 +5,11 @@
         text: "Mail",
         icon: ["far", "fa-envelope"],
         iconOpen: ["far", "fa-envelope-open"],
+        button: {
+            add: true,
+            edit: true,
+            delete: true
+        },
         id: "someidstring",
         items: [
             {
@@ -127,7 +132,7 @@ treeview4.on("folder.checkbox", (elID, checked) => {
 
 let treeview5 = new TreeList({
     element: "treeview5",
-    items: listData,
+    items: listData
 });
 
 document.getElementById("itemEnable").addEventListener("click", () => {
@@ -146,5 +151,33 @@ document.getElementById("bothDisable").addEventListener("click", () => {
     treeview5.checkbox(false);
 });
 
+let treeview6 = new TreeList({
+    element: "treeview6",
+    items: listData,
+    animate: true,
+    animateSpeed: 700,
+    button: {
+        delete: true
+    }
+});
+
+treeview6.on("item.add", (elID) => {
+    alert(`Item ${elID} add event`);
+});
+treeview6.on("item.edit", (elID) => {
+    alert(`Item ${elID} edit event`);
+});
+treeview6.on("item.delete", (elID) => {
+    alert(`Item ${elID} delete event`);
+});
+treeview6.on("folder.add", (elID) => {
+    alert(`Folder ${elID} add event`);
+});
+treeview6.on("folder.edit", (elID) => {
+    alert(`Folder ${elID} edit event`);
+});
+treeview6.on("folder.delete", (elID) => {
+    alert(`Folder ${elID} delete event`);
+});
 
 })();

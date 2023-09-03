@@ -1,4 +1,4 @@
-export function slideUp(target:HTMLElement, duration = 500) {
+export function slideUp(target:HTMLElement, duration:number) {
     target.style.transitionProperty = 'height, margin, padding';
     target.style.transitionDuration = duration + 'ms';
     target.style.boxSizing = 'border-box';
@@ -24,7 +24,7 @@ export function slideUp(target:HTMLElement, duration = 500) {
     }, duration);
   }
 
-export function slideDown(target:HTMLElement, duration = 500) {
+export function slideDown(target:HTMLElement, duration:number) {
     target.style.removeProperty('display');
     let display = window.getComputedStyle(target).display;
 

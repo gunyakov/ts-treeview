@@ -1,6 +1,6 @@
 {
   "name": "ts-treeview",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Bootstrap Tree View for TS compatibility.",
   "main": "lib/index.js",
   "scripts": {

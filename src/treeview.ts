@@ -5,6 +5,7 @@ import { CB } from "./callbacks";
 import { makeInput } from "./DOM/input";
 import { makeHeader } from "./DOM/header";
 import { makeEl } from "./DOM/element";
+import { toggleClass } from "./helpers/class";
 
 class TreeList {
 
@@ -63,6 +64,8 @@ class TreeList {
     private _events(el:HTMLElement, itemID:string = "") {
         let CB = this._CB;
 
+        let thisClass = this;
+
         if(typeof el != "undefined") {
             let listLi = el.children;
             for(let i = 0; i < listLi.length; i++) {
@@ -81,16 +84,29 @@ class TreeList {
                         e.stopPropagation();
                         if(e.detail == 1) {
                             CB.fire(EventType.folderclick, item.getAttribute("tl-id"));
-                            a?.classList.toggle("open");
-                            let icon = item.getElementsByTagName("i")[0];
-                            if (icon) icon.classList.toggle("down");
+
+                            a.classList.toggle("open");
+
+                            let arrow = a.querySelector(":scope > i") as HTMLElement;
+                            if(arrow) arrow.classList.toggle("down");
+
+                            let icon = a.querySelector(":scope > span > i") as HTMLElement;
+                            let iconClose = "";
+                            let iconOpen = "";
+                            
+                            if (icon) {
+                                iconClose = icon.getAttribute("class-close");
+                                iconOpen = icon.getAttribute("class-open");
+                            }
                             if(ul.classList.contains("active")) {
                                 ul.classList.remove("active");
-                                item.classList.contains("treeview-animated-items") ? slideUp(ul) : ul.style.display = "none";;
+                                item.classList.contains("treeview-animated-items") ? slideUp(ul) : ul.style.display = "none";
+                                if(iconClose && iconOpen) toggleClass(icon, iconOpen.split(" "), iconClose.split(" "));
                             }
                             else {
                                 ul.classList.add("active");
-                                item.classList.contains("treeview-animated-items") ? slideDown(ul) : ul.style.display = "block";;
+                                item.classList.contains("treeview-animated-items") ? slideDown(ul) : ul.style.display = "block";
+                                if(iconClose && iconOpen) toggleClass(icon, iconClose.split(" "), iconOpen.split(" "));
                             }
                         }
                         if (e.detail == 2) {
@@ -228,7 +244,10 @@ class TreeList {
                 span.append(makeEl("input", this._options.checkBoxClass, "checkbox"));
             }
             if(item.icon) {
-                span.append(makeEl("i", [...item.icon, "ic-w", "mx-1"]));
+                let icon = makeEl("i", [...item.icon, "ic-w", "mx-1"]);
+                if(item.icon) icon.setAttribute("class-close", item.icon.join(" "));
+                if(item.iconOpen) icon.setAttribute("class-open", item.iconOpen.join(" "));
+                span.append(icon);
             }
 
             span.append(item.text);
@@ -247,7 +266,10 @@ class TreeList {
                 li.append(makeEl("input", this._options.checkBoxClass, "checkbox"));
             }
             if(item.icon) {
-                li.append(makeEl("i", [...item.icon, "ic-w", "mx-1"]));
+                let icon = makeEl("i", [...item.icon, "ic-w", "mx-1"]);
+                if(item.icon) icon.setAttribute("class-close", item.icon.join(" "));
+                if(item.iconOpen) icon.setAttribute("class-open", item.iconOpen.join(" "));
+                li.append(icon);
             }
             li.append(item.text);
         }

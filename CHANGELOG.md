@@ -1,5 +1,10 @@
 ts-treeview Changelog
 =================
+
+## 0.1.6 (2023-09-04)
+
+* Icon toggle support for folder items
+
 ## 0.1.5 (2023-09-04)
 
 * Update readme

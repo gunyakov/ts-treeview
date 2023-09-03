@@ -73,6 +73,7 @@ let listData = [
     {
         text: "Mail",
         icon: ["far", "fa-envelope-open"],
+        iconOpen: ["far", "fa-envelope-open"],
         id: "someidstring",
         items: [
             {
@@ -130,30 +131,32 @@ This code parses JSON, does DOM for list and binds events.
 //HTML container ID where list will be attached
 element: string,
 //Change default class for container
-class: Array<string>,
+class?: Array<string>,
 //If null, no header will be created
-header: string | null,
+header?: string | null,
 //Change default class for header 
-headerClass: Array<string>,
+headerClass?: Array<string>,
 //If true, dblclick event on item will replace item with text field. (not implemented)
-editable: boolean,
+editable?: boolean,
 //Array with list items
-items: Array<ListItem>,
+items?: Array<ListItem>,
 //Replace standart class for item there
-listClass: Array<string>,
+listClass?: Array<string>,
 //Replace standart class for sub list
-subListClass: Array<string>,
+subListClass?: Array<string>,
 //Replace standart class for item what not contain sub items
-itemClass: Array<string>
+itemClass?: Array<string>
 //If item contain sub items, item will be created with this class instead of itemClass
-listSubClass: Array<string>,
+listSubClass?: Array<string>,
 //If litem contain sub items, arrow with class will be shown
-listSubArrowClass: Array<string>,
+listSubArrowClass?: Array<string>,
 //Replace standart check box class
-checkBoxClass: Array<string>,
+checkBoxClass?: Array<string>,
 ```
 #### Item
 ```js
+//Item text
+text:string,
 /*
 * Custom ID for item. If ID is empty, it will be inserted in the next step:
 * For top level ID will be 0, 1, 2, 3.
@@ -161,17 +164,17 @@ checkBoxClass: Array<string>,
 * For child items ID will be 0.0.0, 0.0.1, ..., 3.0.0, 3.0.1
 * And so on
 */
-id:string,
-//Item text
-text:string,
+id?:string,
 //Item icon class
-icon: Array<string>,
+icon?: Array<string>,
+//Item icon class to change when sub item`s list expanded
+iconOpen?:Array<string>
 //Reserved. Not implemented.
-closed: boolean,
+closed?: boolean,
 //If item must be together with check box
-checkBox: boolean,
+checkBox?: boolean,
 //List of sub items
-items: Array<ListItem> | null
+items?: Array<ListItem> | null
 ```
 
 ## Methods

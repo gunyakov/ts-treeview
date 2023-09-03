@@ -3,7 +3,8 @@
     let listData = [
     {
         text: "Mail",
-        icon: ["far", "fa-envelope-open"],
+        icon: ["far", "fa-envelope"],
+        iconOpen: ["far", "fa-envelope-open"],
         id: "someidstring",
         items: [
             {

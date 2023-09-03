@@ -8,7 +8,7 @@ No dependencies, vanila JS
 
 ## Instalation
 
-Include in your html file `ts-treeview.css` and `ts-treeview.js` from `dist` folder.
+In your html file, add `ts-treeview.css` and `ts-treeview.js` from the folder `dist`.
 
 #### For TS users 
 
@@ -27,7 +27,7 @@ import TreeView from "ts-treeview";
 #### HTML prepared list
 
 ```html
-<div class="treeview w-20 border my-4" id="treeview">
+<div id="treeview">
     <h6 class="pt-3 pl-3">Folders</h6>
     <hr>
     <ul class="mb-1 pl-3 pb-2">
@@ -62,7 +62,7 @@ let treeview = new TreeList({
     element: "treeview"
 });
 ```
-This code will parse HTML and bind events to list.
+This code parses HTML and binds events to the list.
 
 #### JSON Data
 
@@ -118,7 +118,7 @@ let treeview = new TreeList({
     items: listData
 });
 ```
-This code will parse JSON, make DOM for list and bind events.
+This code parses JSON, does DOM for list and binds events.
 
 ## Options
 
@@ -153,10 +153,10 @@ checkBoxClass: Array<string>,
 #### Item
 ```js
 /*
-* User custom id for item. If empty ID will be gnerated in next patter:
+* Custom ID for item. If ID is empty, it will be inserted in the next step:
 * For top level ID will be 0, 1, 2, 3.
-* For sub items ID will be 0.0, 0.1, ..., 3.0, 3.1
-* For sub sub items ID will be 0.0.0, 0.0.1, ..., 3.0.0, 3.0.1
+* For child items ID will be 0.0, 0.1, ..., 3.0, 3.1
+* For child items ID will be 0.0.0, 0.0.1, ..., 3.0.0, 3.0.1
 * And so on
 */
 id:string,
@@ -176,11 +176,13 @@ items: Array<ListItem> | null
 
 | Method | Returns | Description |
 |-|-|-|
-|on(<[EventType](#eventtype)>, (ID:string))|void| Register callback what will be fired. Item ID will be returned where event happend.|
-|update(<[Item](#item)>)|bollean|Update item by new json data. Replace/delete all sub items if not stated in json. Return `true` if element with ID was found, false - if not.|
-|remove(<ID:string>)| boolean | Remove item from DOM. Remove alsu all subitems. Return `true` if element was found, `false` - if not.|
+|on(<[EventType](#eventtype)>, (ID:string))|void| Register the recall to be triggered. The item ID is returned where the event occurred.|
+|update(<[Item](#item)>)|bollean|Update items with new json data. Replace/delete all sub-items if not specified in json. Returns `true` if item was found with ID, false - if not.|
+|remove(<ID:string>)| boolean | Remove item from DOM. Also remove all sub-items. Returns `true` if item was found, `false` - if not.|
 
 ## EventType
+
+Available events for the list. If an item has sub-items, that item is recognized as a folder.
 
 ```ts
 edit = "edit",
@@ -190,4 +192,57 @@ folderclick = "folder.click",
 folderdblclick = "folder.dblclick",
 itemcheckbox = "item.checkbox",
 foldercheckbox = "folder.checkbox"
+```
+
+## Example
+
+```js
+//init Treelist and parse JSON Data
+let treeview = new TreeList({
+    element: "treeview",
+    items: listData
+});
+//Fired when item is clicked
+treeview.on("item.click", (elID) => {
+    console.log('Element click', elID);
+});
+//Fired when item is dbl clicked.
+treeview.on("item.dblclick", (elID) => {
+    console.log("Element dblclick", elID);
+})
+//Fired when item what have sub items is clicked.
+treeview.on("folder.click", (elID) => {
+    console.log('Folder click', elID);
+});
+//Fired when item what have sub items is dbl clicked.
+treeview.on("folder.dblclick", (elID) => {
+    console.log("Folder dblclick", elID);
+})
+//Fired when checkbox for item is clicked
+treeview.on("item.checkbox", (elID, checked) => {
+    console.log('Item checkbox', elID, checked);
+});
+//Fired when checkbox for folder is clicked.
+treeview.on("folder.checkbox", (elID, checked) => {
+    console.log("Folder checkbox", elID, checked);
+})
+document.getElementById("itemEnable").addEventListener("click", () => {
+    //Show checkboxes for items only
+    treeview.checkbox(true, "item");
+});
+
+document.getElementById("folderEnable").addEventListener("click", () => {
+    //Show checkboxes for folder only
+    treeview.checkbox(true, "folder");
+});
+
+document.getElementById("bothEnable").addEventListener("click", () => {
+    //Show checkboxes for folder and item
+    treeview.checkbox(true, "both");
+});
+
+document.getElementById("bothDisable").addEventListener("click", () => {
+    //Hide checkboxes
+    treeview.checkbox(false);
+});
 ```
